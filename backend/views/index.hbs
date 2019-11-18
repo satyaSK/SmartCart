@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Smart-Kart</title>
+
+  <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+  <style>
+    body {
+      padding-top: 80px;
+    }
+
+    .show-cart li {
+      display: flex;
+    }
+    .card {
+      margin-bottom: 20px;
+
+    }
+    .card-img-top {
+      width: 250px;
+      height: 200px;
+      align-self: center;
+    }
+
+
+
+
+
+
+    /*.modal {*/
+    /*    display: none; !* Hidden by default *!*/
+    /*    position: fixed; !* Stay in place *!*/
+    /*    z-index: 1; !* Sit on top *!*/
+    /*    padding-top: 100px; !* Location of the box *!*/
+    /*    left: 0;*/
+    /*    top: 0;*/
+    /*    width: 100%; !* Full width *!*/
+    /*    height: 100%; !* Full height *!*/
+    /*    overflow: auto; !* Enable scroll if needed *!*/
+    /*    background-color: rgb(0,0,0); !* Fallback color *!*/
+    /*    background-color: rgba(0,0,0,0.4); !* Black w/ opacity *!*/
+    /*}*/
+
+    /*!* Modal Content *!*/
+    /*.modal-content {*/
+    /*    background-color: #fefefe;*/
+    /*    margin: auto;*/
+    /*    padding: 20px;*/
+    /*    border: 1px solid #888;*/
+    /*    width: 80%;*/
+    /*}*/
+
+    /*!* The Close Button *!*/
+    /*.close {*/
+    /*    color: #aaaaaa;*/
+    /*    float: right;*/
+    /*    font-size: 28px;*/
+    /*    font-weight: bold;*/
+    /*}*/
+
+    /*.close:hover,*/
+    /*.close:focus {*/
+    /*    color: #000;*/
+    /*    text-decoration: none;*/
+    /*    cursor: pointer;*/
+    /*}*/
+
+
+
+
+
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">Smart Kart</a>
+      <button class="navbar-toggler" type="button" id="cart-button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cart">Cart (<span class="total-count"></span>)</button>
+              <button class="clear-cart btn btn-danger">Clear Cart</button>
+            </li>
+            <li class="nav-item">
+              <a></a>  
+            </li>
+          <li class="nav-item active">
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+
+      <div class="col-lg-3">
+
+        <h1 class="my-4">Smart Kart</h1>
+        <div class="list-group">
+            <a href="/Fruits" id = "Fruits" value = "Fruits" class="list-group-item">Fruits</a>
+            <a href="/Vegetables" id = "Vegetables" value = "Vegetables" class="list-group-item">Vegetables</a>
+            <a href="/Frozen" id = "Frozen Foods" value = "Frozen Foods" class="list-group-item">Frozen Foods</a>
+        </div>
+
+      </div>
+      <!-- /.col-lg-3 -->
+
+      <div class="col-lg-9">
+
+        <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+              <img src=".\images\offer.jpg" alt="First slide" width="900" height="350" >
+            </div>
+            <div class="carousel-item">
+              <img src=".\images\walmart.png" alt="Second slide" width="850" height="350">
+            </div>
+            <div class="carousel-item">
+              <img src=".\images\offer2.jpg" alt="Third slide" width="700" height="350">
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+        <div class="container">
+            <div class="/get-data">
+                <div class="row">
+                    {{# each items }}
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card" style="width: 16rem;">
+                            <img class="card-img-top" src={{ this.url }} alt="blah" width="200" height="150">
+<!--                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cart">Cart (<span class="total-count"></span>)</button>-->
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="javascript:void(0)" id="myBtn">{{this.name}}</a>
+                                </h4>
+                                <h5><p class="card-text">Winco: $ {{ this.wprice }} per lb</p></h5>
+
+                                <p class="card-text">FredMeyer: $ {{ this.fprice }} per lb</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="#" data-name={{ this.name }} data-price={{ this.wprice }} class="add-to-cart btn btn-primary">Add to Cart</a>
+                            </div>
+                            <div id="myModal" class="modal">
+
+                                <!-- Modal content -->
+                                <div class="modal-content">
+                                    <span class="close">&times;</span>
+                                    <p>{{this.name}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+
+      </div>
+      <!-- /.col-lg-9 -->
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Cart</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="show-cart table">
+              
+            </table>
+            <div>Total price: $<span class="total-cart"></span></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Order now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Smart kart 2019</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script>
+
+
+
+
+//      // Get the modal
+//      var modal = document.getElementById("myModal");
+
+      // // Get the button that opens the modal
+      // var btn = document.getElementById("myBtn");
+      //
+      // // Get the <span> element that closes the modal
+      // var span = document.getElementsByClassName("close")[0];
+      //
+      // // When the user clicks the button, open the modal
+      // btn.onclick = function() {
+      //     modal.style.display = "block";
+      // }
+      //
+      // // When the user clicks on <span> (x), close the modal
+      // span.onclick = function() {
+      //     modal.style.display = "none";
+      // }
+      //
+      // // When the user clicks anywhere outside of the modal, close it
+      // window.onclick = function(event) {
+      //     if (event.target == modal) {
+      //         modal.style.display = "none";
+      //     }
+      // }
+
+
+
+
+
+
+      var shoppingCart = (function() {
+        // =============================
+        // Private methods and propeties
+        // =============================
+        cart = [];
+
+        // Constructor
+        function Item(name, price, count) {
+          this.name = name;
+          this.price = price;
+          this.count = count;
+        }
+
+        // Save cart
+        function saveCart() {
+          sessionStorage.setItem('shoppingCart', JSON.stringify(cart));
+        }
+
+          // Load cart
+        function loadCart() {
+          cart = JSON.parse(sessionStorage.getItem('shoppingCart'));
+        }
+        if (sessionStorage.getItem("shoppingCart") != null) {
+          loadCart();
+        }
+
+
+        // =============================
+        // Public methods and propeties
+        // =============================
+        var obj = {};
+
+        // Add to cart
+        obj.addItemToCart = function(name, price, count) {
+          for(var item in cart) {
+            if(cart[item].name === name) {
+              cart[item].count ++;
+              saveCart();
+              return;
+            }
+          }
+          var item = new Item(name, price, count);
+          cart.push(item);
+          saveCart();
+        }
+        // Set count from item
+        obj.setCountForItem = function(name, count) {
+          for(var i in cart) {
+            if (cart[i].name === name) {
+              cart[i].count = count;
+              break;
+            }
+          }
+        };
+        // Remove item from cart
+        obj.removeItemFromCart = function(name) {
+            for(var item in cart) {
+              if(cart[item].name === name) {
+                cart[item].count --;
+                if(cart[item].count === 0) {
+                  cart.splice(item, 1);
+                }
+                break;
+              }
+          }
+          saveCart();
+        }
+
+        // Remove all items from cart
+        obj.removeItemFromCartAll = function(name) {
+          for(var item in cart) {
+            if(cart[item].name === name) {
+              cart.splice(item, 1);
+              break;
+            }
+          }
+          saveCart();
+        }
+
+        // Clear cart
+        obj.clearCart = function() {
+          cart = [];
+          saveCart();
+        }
+
+        // Count cart
+        obj.totalCount = function() {
+          var totalCount = 0;
+          for(var item in cart) {
+            totalCount += cart[item].count;
+          }
+          return totalCount;
+        }
+
+        // Total cart
+        obj.totalCart = function() {
+          var totalCart = 0;
+          for(var item in cart) {
+            totalCart += cart[item].price * cart[item].count;
+          }
+          return Number(totalCart.toFixed(2));
+        }
+
+        // List cart
+        obj.listCart = function() {
+          var cartCopy = [];
+          for(i in cart) {
+            item = cart[i];
+            itemCopy = {};
+            for(p in item) {
+              itemCopy[p] = item[p];
+
+            }
+            itemCopy.total = Number(item.price * item.count).toFixed(2);
+            cartCopy.push(itemCopy)
+          }
+          return cartCopy;
+        }
+
+        // cart : Array
+        // Item : Object/Class
+        // addItemToCart : Function
+        // removeItemFromCart : Function
+        // removeItemFromCartAll : Function
+        // clearCart : Function
+        // countCart : Function
+        // totalCart : Function
+        // listCart : Function
+        // saveCart : Function
+        // loadCart : Function
+        return obj;
+      })();
+
+
+      // *****************************************
+      // Triggers / Events
+      // *****************************************
+      // Add item
+      $('.add-to-cart').click(function(event) {
+        event.preventDefault();
+        var name = $(this).data('name');
+        var price = Number($(this).data('price'));
+        shoppingCart.addItemToCart(name, price, 1);
+        displayCart();
+      });
+
+      // Clear items
+      $('.clear-cart').click(function() {
+        shoppingCart.clearCart();
+        displayCart();
+      });
+
+
+      function displayCart() {
+        var cartArray = shoppingCart.listCart();
+        var output = "";
+        for(var i in cartArray) {
+          output += "<tr>"
+            + "<td>" + cartArray[i].name + "</td>"
+            + "<td>(" + cartArray[i].price + ")</td>"
+            + "<td><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-name=" + cartArray[i].name + ">-</button>"
+            + "<input type='number' class='item-count form-control' data-name='" + cartArray[i].name + "' value='" + cartArray[i].count + "'>"
+            + "<button class='plus-item btn btn-primary input-group-addon' data-name=" + cartArray[i].name + ">+</button></div></td>"
+            + "<td><button class='delete-item btn btn-danger' data-name=" + cartArray[i].name + ">X</button></td>"
+            + " = "
+            + "<td>" + cartArray[i].total + "</td>"
+            +  "</tr>";
+        }
+        $('.show-cart').html(output);
+        $('.total-cart').html(shoppingCart.totalCart());
+        $('.total-count').html(shoppingCart.totalCount());
+      }
+
+      // Delete item button
+
+      $('.show-cart').on("click", ".delete-item", function(event) {
+        var name = $(this).data('name')
+        shoppingCart.removeItemFromCartAll(name);
+        displayCart();
+      })
+
+
+      // -1
+      $('.show-cart').on("click", ".minus-item", function(event) {
+        var name = $(this).data('name')
+        shoppingCart.removeItemFromCart(name);
+        displayCart();
+      })
+      // +1
+      $('.show-cart').on("click", ".plus-item", function(event) {
+        var name = $(this).data('name')
+        shoppingCart.addItemToCart(name);
+        displayCart();
+      })
+
+      // Item count input
+      $('.show-cart').on("change", ".item-count", function(event) {
+         var name = $(this).data('name');
+         var count = Number($(this).val());
+        shoppingCart.setCountForItem(name, count);
+        displayCart();
+      });
+
+      displayCart();
+
+    </script>
+
+</body>
+
+</html>
