@@ -173,12 +173,16 @@
                                 <h4 class="card-title">
                                     <a href="javascript:void(0)" id="myBtn">{{this.name}}</a>
                                 </h4>
-                                <h5><p class="card-text">Winco: $ {{ this.wprice }} per lb</p></h5>
-
-                                <p class="card-text">FredMeyer: $ {{ this.fprice }} per lb</p>
+                                    {{ #if comp(this.wprice , this.fprice)}}
+                                        <h5><p class="card-text">Winco: $ {{ this.wprice }} per lb</p></h5>
+                                        <p class="card-text">FredMeyer: $ {{ this.fprice }} per lb</p>
+                                    {{else}}
+                                        <h5><p class="card-text">FredMeyer: $ {{ this.fprice }} per lb</p></h5>
+                                        <p class="card-text">Winco: $ {{ this.wprice }} per lb</p>
+                                    {{/if}}
                             </div>
                             <div class="card-footer">
-                                <a href="#" data-name={{ this.name }} data-price={{ this.wprice }} class="add-to-cart btn btn-primary">Add to Cart</a>
+                                <a href="#" data-name={{ this.name }} data-winprice={{ this.wprice }} data-frdprice={{ this.fprice }} class="add-to-cart btn btn-primary">Add to Cart</a>
                             </div>
                             <div id="myModal" class="modal">
 
@@ -230,7 +234,7 @@
             <table class="show-cart table">
               
             </table>
-            <div>Total price: $<span class="total-cart"></span></div>
+            <div>Total price: $<span class="total-cart"></span>    Store: <span class="final-store"></span></div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -254,6 +258,34 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   <script>
+
+      // Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+      //
+      //     switch (operator) {
+      //         case '==':
+      //             return (v1 == v2) ? options.fn(this) : options.inverse(this);
+      //         case '===':
+      //             return (v1 === v2) ? options.fn(this) : options.inverse(this);
+      //         case '!=':
+      //             return (v1 != v2) ? options.fn(this) : options.inverse(this);
+      //         case '!==':
+      //             return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+      //         case '<':
+      //             return (v1 < v2) ? options.fn(this) : options.inverse(this);
+      //         case '<=':
+      //             return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+      //         case '>':
+      //             return (v1 > v2) ? options.fn(this) : options.inverse(this);
+      //         case '>=':
+      //             return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+      //         case '&&':
+      //             return (v1 && v2) ? options.fn(this) : options.inverse(this);
+      //         case '||':
+      //             return (v1 || v2) ? options.fn(this) : options.inverse(this);
+      //         default:
+      //             return options.inverse(this);
+      //     }
+      // });
 
 
 
@@ -284,7 +316,12 @@
       //     }
       // }
 
-
+        function comp(a,b) {
+            if(a<b){
+                return true;
+            }
+            return false;
+        }
 
 
 
@@ -296,9 +333,10 @@
         cart = [];
 
         // Constructor
-        function Item(name, price, count) {
+        function Item(name, winprice, fredprice, count) {
           this.name = name;
-          this.price = price;
+          this.fredprice = fredprice;
+            this.winprice = winprice;
           this.count = count;
         }
 
@@ -322,7 +360,7 @@
         var obj = {};
 
         // Add to cart
-        obj.addItemToCart = function(name, price, count) {
+        obj.addItemToCart = function(name, winprice, fredprice, count) {
           for(var item in cart) {
             if(cart[item].name === name) {
               cart[item].count ++;
@@ -330,7 +368,7 @@
               return;
             }
           }
-          var item = new Item(name, price, count);
+          var item = new Item(name, winprice, fredprice, count);
           cart.push(item);
           saveCart();
         }
@@ -385,13 +423,31 @@
 
         // Total cart
         obj.totalCart = function() {
-          var totalCart = 0;
+          var wintotalCart = 0;
+          var fredtotalCart = 0;
           for(var item in cart) {
-            totalCart += cart[item].price * cart[item].count;
+            wintotalCart += cart[item].winprice * cart[item].count;
+            fredtotalCart += cart[item].fredprice * cart[item].count;
           }
-          return Number(totalCart.toFixed(2));
+          if (wintotalCart > fredtotalCart)
+              return Number(fredtotalCart.toFixed(2));
+          else
+              return Number(wintotalCart.toFixed(2));
         }
+          obj.finalstore = function() {
+              var wintotalCart = 0;
+              var fredtotalCart = 0;
+              for(var item in cart) {
+                  wintotalCart += cart[item].winprice * cart[item].count;
+                  fredtotalCart += cart[item].fredprice * cart[item].count;
+              }
+              if (wintotalCart > fredtotalCart)
+                  return String("Fred Meyer");
+              if (wintotalCart < fredtotalCart)
+                  return String("Winco");
+              return String(" ");
 
+          }
         // List cart
         obj.listCart = function() {
           var cartCopy = [];
@@ -402,7 +458,8 @@
               itemCopy[p] = item[p];
 
             }
-            itemCopy.total = Number(item.price * item.count).toFixed(2);
+            itemCopy.wintotal = Number(item.winprice * item.count).toFixed(2);
+            itemCopy.fredtotal = Number(item.fredprice * item.count).toFixed(2);
             cartCopy.push(itemCopy)
           }
           return cartCopy;
@@ -430,8 +487,9 @@
       $('.add-to-cart').click(function(event) {
         event.preventDefault();
         var name = $(this).data('name');
-        var price = Number($(this).data('price'));
-        shoppingCart.addItemToCart(name, price, 1);
+        var fredprice = Number($(this).data('frdprice'));
+        var winprice = Number($(this).data('winprice'));
+        shoppingCart.addItemToCart(name, winprice, fredprice, 1);
         displayCart();
       });
 
@@ -444,21 +502,23 @@
 
       function displayCart() {
         var cartArray = shoppingCart.listCart();
-        var output = "";
+        var output = "<tr> <td>Item name</td><td>winco price</td><td>Fredmeyers price</td><td>Count</td></tr>";
         for(var i in cartArray) {
           output += "<tr>"
             + "<td>" + cartArray[i].name + "</td>"
-            + "<td>(" + cartArray[i].price + ")</td>"
+            + "<td>(" + cartArray[i].winprice + ")</td>"
+            + "<td>(" + cartArray[i].fredprice + ")</td>"
             + "<td><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-name=" + cartArray[i].name + ">-</button>"
             + "<input type='number' class='item-count form-control' data-name='" + cartArray[i].name + "' value='" + cartArray[i].count + "'>"
             + "<button class='plus-item btn btn-primary input-group-addon' data-name=" + cartArray[i].name + ">+</button></div></td>"
             + "<td><button class='delete-item btn btn-danger' data-name=" + cartArray[i].name + ">X</button></td>"
-            + " = "
-            + "<td>" + cartArray[i].total + "</td>"
+            // + " = "
+            // + "<td>" + cartArray[i].total + "</td>"
             +  "</tr>";
         }
         $('.show-cart').html(output);
         $('.total-cart').html(shoppingCart.totalCart());
+        $('.final-store').html(shoppingCart.finalstore());
         $('.total-count').html(shoppingCart.totalCount());
       }
 
