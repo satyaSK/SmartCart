@@ -1,0 +1,98 @@
+var express = require('express');
+var router = express.Router();
+var objectId = require('mongodb').ObjectID;
+var assert = require('assert');
+
+var MongoClient = require('mongodb').MongoClient;
+var uri = 'mongodb+srv://joel:11223345@db-32rt2.mongodb.net/test?retryWrites=true&w=majority';
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  var resultArray = [];
+  var categories = [];
+  MongoClient.connect(uri,{ useUnifiedTopology: true }, function(err, client) {
+    const collection = client.db("smartkart").collection("cart");
+    assert.equal(null, err);
+    var cursor = collection.find();
+    cursor.forEach(function(doc, err) {
+      assert.equal(null, err);
+      resultArray.push(doc);
+    }, function() {
+      client.close();
+      res.render('index', {items: resultArray});
+    });
+  });
+
+  // res.render('index');
+});
+
+router.get('/Fruits', function(req, res, next) {
+  var resultArray = [];
+  MongoClient.connect(uri,{ useUnifiedTopology: true }, function(err, client) {
+    const collection = client.db("smartkart").collection("cart");
+    assert.equal(null, err);
+    var cursor = collection.find({category : 'Fruits'});
+    cursor.forEach(function(doc, err) {
+      assert.equal(null, err);
+      resultArray.push(doc);
+    }, function() {
+      client.close();
+      res.render('index', {items: resultArray});
+    });
+  });
+});
+  router.get('/Vegetables', function(req, res, next) {
+    var resultArray = [];
+    MongoClient.connect(uri,{ useUnifiedTopology: true }, function(err, client) {
+      const collection = client.db("smartkart").collection("cart");
+      assert.equal(null, err);
+      var cursor = collection.find({category : 'Vegetables'});
+      cursor.forEach(function(doc, err) {
+        assert.equal(null, err);
+        resultArray.push(doc);
+      }, function() {
+        client.close();
+        res.render('index', {items: resultArray});
+      });
+    });
+  });
+    router.get('/Frozen', function(req, res, next) {
+      var resultArray = [];
+      MongoClient.connect(uri,{ useUnifiedTopology: true }, function(err, client) {
+        const collection = client.db("smartkart").collection("cart");
+        assert.equal(null, err);
+        var cursor = collection.find({category : 'Frozen Foods'});
+        cursor.forEach(function(doc, err) {
+          assert.equal(null, err);
+          resultArray.push(doc);
+        }, function() {
+          client.close();
+          res.render('index', {items: resultArray});
+        });
+      });
+    });
+
+  // var item = {
+  //   url: req.body.url,
+  //   name: req.body.name,
+  //   price: req.body.price
+  // };
+  //
+  //
+  // MongoClient.connect(uri,{ useUnifiedTopology: true }, function(err, client) {
+  //   const collection = client.db("smartkart").collection("cart");
+  //   console.log('Connected...');
+  //   assert.equal(null, err);
+  //   collection.insertOne(item,function(err,res){
+  //     console.log("data inserted");
+  //   });
+  //   client.close();
+  // });
+
+
+  //res.redirect('/');
+// });
+
+
+
+module.exports = router;
