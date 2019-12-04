@@ -1,0 +1,49 @@
+<h1>Database And Express NodeJS Test</h1>
+<section class="insert">
+    <h3>Insert Data</h3>
+    <form action="/insert" method="post">
+        <div class="input">
+            <label for="url">URL</label>
+            <input type="text" id="url" name="url">
+        </div>
+        <div class="input">
+            <label for="name">Item Name</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div class="input">
+            <label for="price">Price</label>
+            <input type="number" id="price" name="price">
+        </div>
+        <button type="submit">INSERT</button>
+    </form>
+</section>
+<!--          <div class="col-lg-4 col-md-6 mb-4">-->
+<!--            <div class="card h-100">-->
+<!--              <a href="#"><img src={{ this.url }} alt={{ this.name }} width="200" height="150"></a>-->
+<!--              <div class="card-body">-->
+<!--                <h4 class="card-title">-->
+<!--                  <a href="apple.html">{{ this.name }}</a>-->
+<!--                </h4>-->
+<!--                <h5><p class="card-text">Winco: $ {{ this.wprice }} per lb</p></h5>-->
+
+<!--                <p class="card-text">FredMeyer: $ {{ this.fprice }} per lb</p>-->
+<!--              </div>-->
+<!--              <div class="card-footer">-->
+<!--                  <a href="#" data-name={{ this.name }} data-price={{ this.fprice }} class="add-to-cart btn btn-primary">Add to Cart</a>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<section class="get">
+    <h3>Get Data</h3>
+    <a href="/get-data">LOAD DATA</a>
+    <div>
+        {{# each items }}
+            <article class="item">
+                <div>Url: {{ this.url }}</div>
+                <div>Name: {{ this.name }}</div>
+                <div>Price: {{ this.price }}</div>
+                <div>ID: {{ this._id }}</div>
+            </article>
+        {{/each}}
+    </div>
+</section>
