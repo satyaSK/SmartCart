@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Page Content -->
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-lg-3">
+
+            <h1 class="my-4">Smart Kart</h1>
+            <div class="list-group">
+                <a href="/category/Fruits" id = "Fruits" value = "Fruits" class="list-group-item">Fruits</a>
+                <a href="/category/Vegetables" id = "Vegetables" value = "Vegetables" class="list-group-item">Vegetables</a>
+                <a href="/category/Frozen Foods" id = "Frozen Foods" value = "Frozen Foods" class="list-group-item">Frozen Foods</a>
+            </div>
+
+        </div>
+        <!-- /.col-lg-3 -->
+
+        <div class="col-lg-9">
+            <div class="container">
+                <div class="/get-data">
+                    <div class="row">
+                        {{# each items }}
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="card" style="width: 16rem;">
+                                    <img class="card-img-top" src={{ this.url }} alt="blah" width="200" height="150">
+                                    <!--                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cart">Cart (<span class="total-count"></span>)</button>-->
+                                    <div class="card-body">
+                                        <h4 class="card-title">
+                                            <a href="javascript:void(0)" id="myBtn">{{this.name}}</a>
+                                        </h4>
+
+                                        <h5><p class="card-text">Winco: $ {{ this.wprice }} per lb</p></h5>
+                                        <p class="card-text">FredMeyer: $ {{ this.fprice }} per lb</p>
+
+                                    </div>
+                                    <div class="card-footer">
+                                        <a href="/add-to-cart-cat/{{this._id}}/{{this.category}}" class="add-to-cart btn btn-primary" role="button">Add to Cart</a>
+                                    </div>
+                                    <div id="myModal" class="modal">
+
+                                        <!-- Modal content -->
+                                        <div class="modal-content">
+                                            <span class="close">&times;</span>
+                                            <p>{{this.name}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+
+        </div>
+        <!-- /.col-lg-9 -->
+
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container -->
+</body>
+
+</html>

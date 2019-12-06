@@ -7,12 +7,14 @@ var bodyParser = require('body-parser');
 var hbs = require('express-handlebars');
 var helpers = require('handlebars-helpers');
 var session = require('express-session');
-
+var mongoose = require('mongoose');
 var mongostore = require('connect-mongo')(session);
 
 var routes = require('./routes/index');
 
 var app = express();
+
+mongoose.connect('mongodb://localhost:27017/cart',{ useUnifiedTopology: true,useNewUrlParser: true});
 
 // view engine setup
 app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layouts/'}));
@@ -29,7 +31,7 @@ app.use(session({
   secret: "mysession",
   resave:false,
   saveUninitialized:false,
-  store:new mongostore({ url :'mongodb+srv://joel:11223345@db-32rt2.mongodb.net/test?retryWrites=true&w=majority'}),
+  store:new mongostore({mongooseConnection: mongoose.connection}),
   cookie: {maxAge: 180 * 60 * 1000}
 }));
 app.use(express.static(path.join(__dirname, 'public')));
