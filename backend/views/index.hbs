@@ -18,17 +18,25 @@
     body {
       padding-top: 80px;
     }
+
     .show-cart li {
       display: flex;
     }
     .card {
       margin-bottom: 20px;
+
     }
     .card-img-top {
       width: 250px;
       height: 200px;
       align-self: center;
     }
+
+
+
+
+
+
     /*.modal {*/
     /*    display: none; !* Hidden by default *!*/
     /*    position: fixed; !* Stay in place *!*/
@@ -42,6 +50,7 @@
     /*    background-color: rgb(0,0,0); !* Fallback color *!*/
     /*    background-color: rgba(0,0,0,0.4); !* Black w/ opacity *!*/
     /*}*/
+
     /*!* Modal Content *!*/
     /*.modal-content {*/
     /*    background-color: #fefefe;*/
@@ -50,6 +59,7 @@
     /*    border: 1px solid #888;*/
     /*    width: 80%;*/
     /*}*/
+
     /*!* The Close Button *!*/
     /*.close {*/
     /*    color: #aaaaaa;*/
@@ -57,12 +67,19 @@
     /*    font-size: 28px;*/
     /*    font-weight: bold;*/
     /*}*/
+
     /*.close:hover,*/
     /*.close:focus {*/
     /*    color: #000;*/
     /*    text-decoration: none;*/
     /*    cursor: pointer;*/
     /*}*/
+
+
+
+
+
+
   </style>
 
 </head>
@@ -108,9 +125,9 @@
 
         <h1 class="my-4">Smart Kart</h1>
         <div class="list-group">
-            <a href="/Fruits" id = "Fruits" value = "Fruits" class="list-group-item">Fruits</a>
-            <a href="/Vegetables" id = "Vegetables" value = "Vegetables" class="list-group-item">Vegetables</a>
-            <a href="/Frozen" id = "Frozen Foods" value = "Frozen Foods" class="list-group-item">Frozen Foods</a>
+            <a href="/category/Fruits" id = "Fruits" value = "Fruits" class="list-group-item">Fruits</a>
+            <a href="/category/Vegetables" id = "Vegetables" value = "Vegetables" class="list-group-item">Vegetables</a>
+            <a href="/category/Frozen" id = "Frozen Foods" value = "Frozen Foods" class="list-group-item">Frozen Foods</a>
         </div>
 
       </div>
@@ -156,16 +173,14 @@
                                 <h4 class="card-title">
                                     <a href="javascript:void(0)" id="myBtn">{{this.name}}</a>
                                 </h4>
-                                    {{ #if comp(this.wprice , this.fprice)}}
+
                                         <h5><p class="card-text">Winco: $ {{ this.wprice }} per lb</p></h5>
                                         <p class="card-text">FredMeyer: $ {{ this.fprice }} per lb</p>
-                                    {{else}}
-                                        <h5><p class="card-text">FredMeyer: $ {{ this.fprice }} per lb</p></h5>
-                                        <p class="card-text">Winco: $ {{ this.wprice }} per lb</p>
-                                    {{/if}}
+
                             </div>
                             <div class="card-footer">
-                                <a href="#" data-name={{ this.name }} data-winprice={{ this.wprice }} data-frdprice={{ this.fprice }} class="add-to-cart btn btn-primary">Add to Cart</a>
+                                <a href="/add-to-cart/{{this._id}}" role="button">Add to Cart</a>
+                                <a href="/add-to-cart/{{this._id}}" class="add-to-cart btn btn-primary" role="button">Add to Cart</a>
                             </div>
                             <div id="myModal" class="modal">
 
@@ -221,25 +236,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" onclick="print_list()" class="btn btn-primary">Print List</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-        <!-- This is the place where the data would be stored for printing. It is not visible and only shows when clicks on print. -->
-    <div class="modal fade" id="cart-print" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Shopping list</h5>
-          </div>
-          <div class="modal-body">
-            <table class="show-print table">
-            </table><br><br>
-            <div>Total price: $<span class="total-cart"></span></div>
-          </div>
-          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Order now</button>
           </div>
         </div>
       </div>
@@ -259,15 +256,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   <script>
-        function print_list() {
-          var temp = document.getElementById("cart-print");
-          var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
-          WinPrint.document.write(temp.innerHTML);
-          WinPrint.document.close();
-          WinPrint.focus();
-          WinPrint.print();
-          WinPrint.close();
-        }
+
       // Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
       //
       //     switch (operator) {
@@ -295,8 +284,13 @@
       //             return options.inverse(this);
       //     }
       // });
+
+
+
+
 //      // Get the modal
 //      var modal = document.getElementById("myModal");
+
       // // Get the button that opens the modal
       // var btn = document.getElementById("myBtn");
       //
@@ -319,17 +313,23 @@
       //         modal.style.display = "none";
       //     }
       // }
+
         function comp(a,b) {
             if(a<b){
                 return true;
             }
             return false;
         }
+
+
+
+
       var shoppingCart = (function() {
         // =============================
         // Private methods and propeties
         // =============================
         cart = [];
+
         // Constructor
         function Item(name, winprice, fredprice, count) {
           this.name = name;
@@ -337,10 +337,12 @@
             this.winprice = winprice;
           this.count = count;
         }
+
         // Save cart
         function saveCart() {
           sessionStorage.setItem('shoppingCart', JSON.stringify(cart));
         }
+
           // Load cart
         function loadCart() {
           cart = JSON.parse(sessionStorage.getItem('shoppingCart'));
@@ -348,10 +350,13 @@
         if (sessionStorage.getItem("shoppingCart") != null) {
           loadCart();
         }
+
+
         // =============================
         // Public methods and propeties
         // =============================
         var obj = {};
+
         // Add to cart
         obj.addItemToCart = function(name, winprice, fredprice, count) {
           for(var item in cart) {
@@ -387,6 +392,7 @@
           }
           saveCart();
         }
+
         // Remove all items from cart
         obj.removeItemFromCartAll = function(name) {
           for(var item in cart) {
@@ -397,11 +403,13 @@
           }
           saveCart();
         }
+
         // Clear cart
         obj.clearCart = function() {
           cart = [];
           saveCart();
         }
+
         // Count cart
         obj.totalCount = function() {
           var totalCount = 0;
@@ -410,6 +418,7 @@
           }
           return totalCount;
         }
+
         // Total cart
         obj.totalCart = function() {
           var wintotalCart = 0;
@@ -435,6 +444,7 @@
               if (wintotalCart < fredtotalCart)
                   return String("Winco");
               return String(" ");
+
           }
         // List cart
         obj.listCart = function() {
@@ -444,6 +454,7 @@
             itemCopy = {};
             for(p in item) {
               itemCopy[p] = item[p];
+
             }
             itemCopy.wintotal = Number(item.winprice * item.count).toFixed(2);
             itemCopy.fredtotal = Number(item.fredprice * item.count).toFixed(2);
@@ -451,6 +462,7 @@
           }
           return cartCopy;
         }
+
         // cart : Array
         // Item : Object/Class
         // addItemToCart : Function
@@ -464,6 +476,8 @@
         // loadCart : Function
         return obj;
       })();
+
+
       // *****************************************
       // Triggers / Events
       // *****************************************
@@ -476,11 +490,14 @@
         shoppingCart.addItemToCart(name, winprice, fredprice, 1);
         displayCart();
       });
+
       // Clear items
       $('.clear-cart').click(function() {
         shoppingCart.clearCart();
         displayCart();
       });
+
+
       function displayCart() {
         var cartArray = shoppingCart.listCart();
         var output = "<tr> <td>Item name</td><td>winco price</td><td>Fredmeyers price</td><td>Count</td></tr>";
@@ -497,43 +514,21 @@
             // + "<td>" + cartArray[i].total + "</td>"
             +  "</tr>";
         }
-        var bestShop = "Winco";
-        var output_print_winco = "";
-        for(var i in cartArray) {
-            output_print_winco += "<tr>"
-            + "<td>" + cartArray[i].count + " of </td>"
-            + "<td> {" + cartArray[i].name + "} </td>" 
-            + "<td>($" + cartArray[i].winprice + " each) = </td>"
-            + "<td>$" + cartArray[i].total + "</td>" 
-            +  "</tr>";
-          }
-        var output_print_fred = "";
-        for(var i in cartArray) {
-            output_print_fred += "<tr>"
-            + "<td>" + cartArray[i].count + " of </td>"
-            + "<td> {" + cartArray[i].name + "} </td>" 
-            + "<td>($" + cartArray[i].fredprice + " each) = </td>"
-            + "<td>$" + cartArray[i].total + "</td>" 
-            +  "</tr>";
-          }
-        if ( bestShop == $('.final-store').html(shoppingCart.finalstore())) {
-          output_print = output_print_winco;
-        } else {
-          output_print = output_print_fred;
-        }
-        output_print += "<tr>" + "<td>The best price is offered at " + $('.final-store').html(shoppingCart.finalstore()) + ".</td>" + "</tr>";
-        $('.show-print').html(output_print);
         $('.show-cart').html(output);
         $('.total-cart').html(shoppingCart.totalCart());
         $('.final-store').html(shoppingCart.finalstore());
         $('.total-count').html(shoppingCart.totalCount());
       }
+
       // Delete item button
+
       $('.show-cart').on("click", ".delete-item", function(event) {
         var name = $(this).data('name')
         shoppingCart.removeItemFromCartAll(name);
         displayCart();
       })
+
+
       // -1
       $('.show-cart').on("click", ".minus-item", function(event) {
         var name = $(this).data('name')
@@ -546,6 +541,7 @@
         shoppingCart.addItemToCart(name);
         displayCart();
       })
+
       // Item count input
       $('.show-cart').on("change", ".item-count", function(event) {
          var name = $(this).data('name');
@@ -553,7 +549,9 @@
         shoppingCart.setCountForItem(name, count);
         displayCart();
       });
+
       displayCart();
+
     </script>
 
 </body>

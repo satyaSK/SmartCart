@@ -33,9 +33,10 @@ const functions = {
           assert.equal(null, err);
           collection.insertOne(item,function(err,res){
           });
+            return "data inserted!!!"
           client.close();
         });
-        return "data inserted!!!"
+
     }
 }
 

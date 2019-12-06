@@ -5,6 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var hbs = require('express-handlebars');
+var helpers = require('handlebars-helpers');
+var session = require('express-session');
+
+var mongostore = require('connect-mongo')(session);
 
 var routes = require('./routes/index');
 
@@ -21,7 +25,19 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+  secret: "mysession",
+  resave:false,
+  saveUninitialized:false,
+  store:new mongostore({ url :'mongodb+srv://joel:11223345@db-32rt2.mongodb.net/test?retryWrites=true&w=majority'}),
+  cookie: {maxAge: 180 * 60 * 1000}
+}));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(function (req, res, next) {
+  res.locals.session = req.session;
+  next();
+})
 
 app.use('/', routes);
 
