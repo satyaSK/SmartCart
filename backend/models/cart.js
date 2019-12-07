@@ -8,7 +8,23 @@ module.exports = function cart(oldCart) {
     this.market = oldCart.market|| null;
     var fp,wp;
     this.add = function(item, id){
-        
+        var storedItem = this.items[id];
+        if(!storedItem) {
+            storedItem = this.items[id] = {item: item,qty: 0, fprice: 0, wprice: 0};
+        }
+        storedItem.qty++;
+        this.totalQty++;
+        if(storedItem.qty == 1){
+            this.totalPrice = this.totalPrice1 = this.totalwPrice = this.totalfPrice = 0;
+            this.market = null;
+        }
+        storedItem.fprice = storedItem.item.fprice * storedItem.qty;
+        storedItem.wprice = storedItem.item.wprice * storedItem.qty;
+
+        this.totalwPrice = this.totalwPrice + storedItem.wprice;
+        this.totalfPrice = this.totalfPrice + storedItem.fprice;
+        this.totalfPrice = this.totalfPrice;
+        this.totalwPrice = this.totalwPrice;
         if(this.totalfPrice > this.totalwPrice){
             this.market= false;
             this.totalPrice = this.totalwPrice;
@@ -16,8 +32,8 @@ module.exports = function cart(oldCart) {
         else{
             this.market= true;
             this.totalPrice = this.totalfPrice;
-            console.log("else");
         }
+        console.log(storedItem);
 
     };
     this.reduce = function (id) {
@@ -34,12 +50,12 @@ module.exports = function cart(oldCart) {
         else{
             this.market= true;
             this.totalPrice = this.totalfPrice;
-            console.log("else");
         }
 
         if(this.items[id].qty <= 0){
             delete this.items[id];
         }
+        console.log(this.items[id]);
     };
 
     this.increase = function (id) {
@@ -56,10 +72,16 @@ module.exports = function cart(oldCart) {
         else{
             this.market= true;
             this.totalPrice = this.totalfPrice;
-            console.log("else");
         }
+        console.log(this.items[id]);
     };
+    this.clear= function () {
+        this.totalPrice = this.totalPrice1 = this.totalwPrice = this.totalfPrice = 0;
+        this.market = null;
+        delete oldCart;
+        return oldCart;
 
+    }
     this.generateArray = function () {
         var arr = [];
         for(var id in this.items){

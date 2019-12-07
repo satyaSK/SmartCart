@@ -1,17 +1,18 @@
 const functions = require('./util');
-test('fetching router', () =>{
-    expect(functions.send('cart')).toBe("in router : cart");
+var apple = {name: 'apple',price: '2', count: '12'};
+test('add item', () =>{
+    expect(functions.add(apple,'12312312312312')).toBe("{name: 'apple',price: '2', count: '12'}");
 });
 
-test('data to router', () =>{
-    expect(functions.data('cart',2000)).toBe("in router : cart/2000");
+test('increase count', () =>{
+    expect(functions.increase()).toBe("{name: 'apple',price: '2', count: '13'}");
 });
 
-test('fetching router', () =>{
-    expect(functions.send('cartt')).toBe("in router : cartt");
+test('decrease count', () =>{
+    expect(functions.decrease()).toBe(""{name: 'apple',price: '2', count: '13'}"");
 });
 
 
-test('fetching data from router', () =>{
-    expect(functions.fetch('http://localhost:8000/shopping-cart',)).toBe("in router : cartt");
+test('clear', () =>{
+    expect(functions.clear('',)).toBe("");
 });
