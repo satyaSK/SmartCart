@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Smart-Kart</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+        body {
+            padding-top: 80px;
+        }
+
+        .show-cart li {
+            display: flex;
+        }
+        .card {
+            margin-bottom: 20px;
+
+        }
+        .card-img-top {
+            width: 250px;
+            height: 200px;
+            align-self: center;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">Smart Kart</a>
+        <button class="navbar-toggler" type="button" id="cart-button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="/shopping-cart" class="add-to-cart btn btn-primary" role="button">Cart ({{session.cart.totalQty}})</a>
+                    <button class="btn btn-danger">Clear Cart</button>
+                </li>
+                <li class="nav-item active">
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color:white" href="#">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" style="color:white" href="#">Contact</a>
+                </li>
+                <a>  </a>
+                <li class="nav-item">
+                    <a>  </a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:white" aria-haspopup="false " aria-expanded="true"><i class="fa fa-user" aria-hidden="true"></i> User Details <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        {{# if login}}
+                            <li><a href="/users/profile">Personal Account</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/users/logout">Logout</a></li>
+                        {{else}}
+                            <li><a href="/users/signup">Sign up</a></li>
+                            <li><a href="/users/signin">Sign in</a></li>
+                        {{/if}}
+
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-lg-3">
+
+            <h1 class="my-4">Smart Kart</h1>
+            <div class="list-group">
+                <a href="/category/Fruits" id = "Fruits" value = "Fruits" class="list-group-item">Fruits</a>
+                <a href="/category/Vegetables" id = "Vegetables" value = "Vegetables" class="list-group-item">Vegetables</a>
+                <a href="/category/Frozen Foods" id = "Frozen Foods" value = "Frozen Foods" class="list-group-item">Frozen Foods</a>
+            </div>
+
+        </div>
+        <!-- /.col-lg-3 -->
+
+        <div class="col-lg-9">
+            <div class="container">
+                <div class="/get-data">
+                    <div class="row">
+                        {{# each items }}
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="card" style="width: 16rem;">
+                                    <img class="card-img-top" src={{ this.url }} alt="blah" width="200" height="150">
+                                    <!--                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cart">Cart (<span class="total-count"></span>)</button>-->
+                                    <div class="card-body">
+                                        <h4 class="card-title">
+                                            <a href="javascript:void(0)" id="myBtn">{{this.name}}</a>
+                                        </h4>
+
+                                        <h5><p class="card-text">Winco: $ {{ this.wprice }} per lb</p></h5>
+                                        <p class="card-text">FredMeyer: $ {{ this.fprice }} per lb</p>
+
+                                    </div>
+                                    <div class="card-footer">
+                                        <a href="/add-to-cart-cat/{{this._id}}/{{this.category}}" class="add-to-cart btn btn-primary" role="button">Add to Cart</a>
+                                    </div>
+                                    <div id="myModal" class="modal">
+
+                                        <!-- Modal content -->
+                                        <div class="modal-content">
+                                            <span class="close">&times;</span>
+                                            <p>{{this.name}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+
+        </div>
+        <!-- /.col-lg-9 -->
+
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container -->
+</body>
+</html>

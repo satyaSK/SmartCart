@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">Smart Kart</a>
+        <button class="navbar-toggler" type="button" id="cart-button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="/shopping-cart" class="add-to-cart btn btn-primary" role="button">Cart ({{session.cart.totalQty}})</a>
+                    <button class="btn btn-danger">Clear Cart</button>
+                </li>
+                <li class="nav-item">
+                    <a> </a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> User Management <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        {{# if login}}
+                            <li><a href="/users/profile">Account Details</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/users/logout">Logout</a></li>
+                        {{else}}
+                            <li><a href="/users/signup">Sign up</a></li>
+                            <li><a href="/users/signin">Sign in</a></li>
+                        {{/if}}
+
+                    </ul>
+                </li>
+                <li class="nav-item active">
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

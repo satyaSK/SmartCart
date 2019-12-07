@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Smart-Kart</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+        body {
+            padding-top: 80px;
+        }
+
+        .show-cart li {
+            display: flex;
+        }
+        .card {
+            margin-bottom: 20px;
+
+        }
+        .card-img-top {
+            width: 250px;
+            height: 200px;
+            align-self: center;
+        }
+        .content {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 10px;
+        }
+        .content-right {
+            float: right;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">Smart Kart</a>
+        <button class="navbar-toggler" type="button" id="cart-button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="/shopping-cart" class="add-to-cart btn btn-primary" role="button">Cart ({{session.cart.totalQty}})</a>
+                    <button class="btn btn-danger">Clear Cart</button>
+                </li>
+                <li class="nav-item active">
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color:white" href="#">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" style="color:white" href="#">Contact</a>
+                </li>
+                <a>  </a>
+                <li class="nav-item">
+                    <a>  </a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:white" aria-haspopup="false " aria-expanded="true"><i class="fa fa-user" aria-hidden="true"></i> User Details <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        {{# if login}}
+                            <li><a href="/users/profile">Personal Account</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/users/logout">Logout</a></li>
+                        {{else}}
+                            <li><a href="/users/signup">Sign up</a></li>
+                            <li><a href="/users/signin">Sign in</a></li>
+                        {{/if}}
+
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="content">
+    {{# if products}}
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-md-offset-3 col-md-offset-3">
+                <ul class = "list-group">
+                    {{# each products}}
+                        <li class="list-group-item">
+                            <span class="badge">{{ this.qty}}</span>
+                            <strong>{{this.item.name}}</strong>
+                            <span class="label label-success">{{this.fprice}}</span>
+                            <span class="label label-secondary">{{this.wprice}}</span>
+                            <div class="content-right">
+                                <a href="/reduce/{{this.item._id}}"> Reduce </a>
+                                <a href="/increase/{{this.item._id}}"> Increase </a>
+                            </div>
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-md-offset-3 col-md-offset-3">
+                {{# if market }}
+                    <strong>Total: ${{totalPrice}}     Store: FredMeyers</strong>
+                {{else}}
+                    <strong>Total: ${{totalPrice}}     Store: Winco</strong>
+                {{/if}}
+
+            </div>
+        </div>
+<br>
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-md-offset-3 col-md-offset-3">
+                <a href ="/checkout" type="button" class="btn btn-success">Checkout</a>
+            </div>
+            <div class="container" align=" center">
+                <a href="/" class="btn btn-primary btn-lg" role="button" aria-disabled="true">Continue shopping</a>
+            </div>
+        </div>
+
+    {{else}}
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-md-offset-3 col-md-offset-3">
+                <h2>Cart Empty..</h2>
+            </div>
+        </div>
+    {{/if}}
+
+</div>
